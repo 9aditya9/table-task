@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import dateRangeReducer from '../features/datepicker/dateRangeSlice';
+import tableDataReducer from '../features/Table/tableSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    dateRange: dateRangeReducer,
+    tableData: tableDataReducer,
   },
 });

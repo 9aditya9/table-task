@@ -1,0 +1,12 @@
+.date-picker-form-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #EAEAEA;
+    border-radius: 4px;
+    max-width: 100vw;
+}
