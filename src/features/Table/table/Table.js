@@ -1,14 +1,38 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "../Table.css";
 
 const Table = ({
   visibleColumns,
-  handleSort,
-  sortedColumn,
-  sortDirection,
   filteredData,
 }) => {
   const columnsToShow = visibleColumns.filter((col) => !col.isHidden);
+  const [sortedColumn, setSortedColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState(null);
+  const [sortedData, setSortedData] = useState(filteredData);
+
+  useEffect(()=> {
+    setSortedData(filteredData);
+  },[filteredData])
+
+  // sort the columns which is clicked
+  const handleSort = (column) => {
+    if (!sortedColumn || sortedColumn.id !== column.id) {
+      setSortedColumn(column);
+      setSortDirection("asc");
+    } else {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    }
+    const sortedData = [...filteredData].sort((a, b) => {
+      if (sortDirection === "asc") {
+        return a[column.id] > b[column.id] ? 1 : -1;
+      } else {
+        return a[column.id] < b[column.id] ? 1 : -1;
+      }
+    });
+
+    setSortedData(sortedData);
+  };
+
   return (
     <div className="table-container">
       <table>
@@ -18,7 +42,7 @@ const Table = ({
               columnsToShow.map((column, index) => (
                 <th key={column.id} onClick={() => handleSort(column)}>
                   {column.label}
-                  {sortedColumn === column.id && (
+                  {sortedColumn?.id === column.id && (
                     <span>{sortDirection === "asc" ? "⬆️" : "⬇️"}</span>
                   )}
                 </th>
@@ -28,7 +52,7 @@ const Table = ({
         </thead>
         <tbody>
           {
-            filteredData.map((row, index) => (
+            sortedData.map((row, index) => (
               <tr key={index}>
                 {
                   columnsToShow.map((column) => (

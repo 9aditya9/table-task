@@ -32,7 +32,7 @@ const TableContainer = () => {
   }, [appData, reportData, columns]);
 
   const handleSort = (column) => {
-    if (column === sortedColumn) {
+    if (column.id === sortedColumn?.id) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortedColumn(column);
@@ -75,8 +75,6 @@ const TableContainer = () => {
         <Table
           visibleColumns={visibleColumns}
           filteredData={filteredData}
-          handleSort={handleSort}
-          handleFilter={handleFilter}
         />
       )}
     </div>
