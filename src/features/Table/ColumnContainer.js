@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setVisibleColumns } from "./tableSlice";
 import "./Column.css";
-import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  setStartDate,
-  setEndDate,
-} from "../datepicker/dateRangeSlice";
+import { useNavigate, useLocation } from "react-router-dom";
+import { setStartDate, setEndDate } from "../datepicker/dateRangeSlice";
 
 const initialState = {
   dragFrom: null,
@@ -19,7 +16,6 @@ const initialState = {
 const ColumnContainer = ({ showColumn, setShowColumn }) => {
   const dispatch = useDispatch();
   const [dragAndDrop, setDragAndDrop] = useState(initialState);
-  // const columns = useSelector((state) => state.tableData.columns);
   const visibleColumns = useSelector((state) => state.tableData.visibleColumns);
   const [selectedColumns, setSelectedColumns] = useState(visibleColumns);
   const startDate = useSelector((state) => state.dateRange.startDate);
@@ -87,53 +83,29 @@ const ColumnContainer = ({ showColumn, setShowColumn }) => {
 
   const handleSubmit = () => {
     dispatch(setVisibleColumns(selectedColumns));
+  };
+
+  useEffect(() => {
     console.log(visibleColumns);
-    const cols = selectedColumns.filter((column) => !column.isHidden).map((column) => column.id);
+    const cols = selectedColumns
+      .filter((column) => !column.isHidden)
+      .map((column) => column.id);
     const searchParams = new URLSearchParams();
-    searchParams.set('columns', JSON.stringify(cols));
-    searchParams.set('start_date', JSON.stringify(startDate));
-    searchParams.set('end_date', JSON.stringify(endDate));
+    searchParams.set("columns", JSON.stringify(cols));
+    searchParams.set("start_date", startDate);
+    searchParams.set("end_date", endDate);
 
     const updatedLocation = {
       state: {
         ...location.state,
-        filters: visibleColumns
+        filters: visibleColumns,
       },
-      search: searchParams.toString()
+      search: searchParams.toString(),
     };
-    // navigate function to update the URL with the updated location object
     navigate(updatedLocation);
     console.log(location);
     console.log("updatedLocation", updatedLocation);
-  };
-
-
-  useEffect(() => {
-    // Parse the search string to extract the columns data
-    const searchParams = new URLSearchParams(location.search);
-    console.log(searchParams);
-    const start_date = JSON.parse(searchParams.get('start_date'));
-    const end_date = JSON.parse(searchParams.get('end_date'));
-    const columns = JSON.parse(searchParams.get('columns'));
-    if (!columns) {
-      return;
-    }
-    const updatedColumns = selectedColumns.map((column) => {
-      if (columns.includes(column.id)) {
-        return {
-          ...column,
-          isHidden: false,
-        };
-      }
-      return {
-        ...column,
-        isHidden: true,
-      };
-    });
-    dispatch(setVisibleColumns(updatedColumns));
-    dispatch(setStartDate(start_date));
-    dispatch(setEndDate(end_date));
-  }, [dispatch, location, selectedColumns]);
+  }, [startDate, endDate, visibleColumns, navigate]);
 
   return (
     <div className="col-container">
@@ -161,8 +133,15 @@ const ColumnContainer = ({ showColumn, setShowColumn }) => {
         ))}
       </div>
       <div className="col-handlers">
-        <button className="col-handlers-item close-btn" onClick={() => setShowColumn(!showColumn)}>Close</button>
-        <button className="col-handlers-item" onClick={handleSubmit}>Apply Changes</button>
+        <button
+          className="col-handlers-item close-btn"
+          onClick={() => setShowColumn(!showColumn)}
+        >
+          Close
+        </button>
+        <button className="col-handlers-item" onClick={handleSubmit}>
+          Apply Changes
+        </button>
       </div>
     </div>
   );

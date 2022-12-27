@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import './datepicker.css';
+import "./datepicker.css";
 import {
   setStartDate,
   setEndDate,
   setReportData,
   setAppData,
 } from "./dateRangeSlice";
-
 
 const DateRangePicker = () => {
   const dispatch = useDispatch();
@@ -24,26 +23,24 @@ const DateRangePicker = () => {
     dispatch(setEndDate(event.target.value));
   };
 
-  const handleSubmit = () => {
-    setIsLoading(true);
-    console.log(startDate, endDate);
+  useEffect(() => {
+    dispatch(setAppData())
+      .then(() => {
+        console.log("done");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(setReportData({ startDate: startDate, endDate: endDate }))
       .then(() => setIsLoading(false))
       .catch((error) => {
         setIsLoading(false);
         console.log(error);
       });
-  };
-
-  useEffect(() => {
-    dispatch(setAppData())
-    .then(() => {
-      console.log("done")
-      })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, [dispatch]);
+  }, [startDate, endDate, dispatch]);
 
   return (
     <form className="date-picker-form-container">
@@ -63,9 +60,6 @@ const DateRangePicker = () => {
         onChange={handleEndDateChange}
       />
       <br />
-      <button type="button" onClick={handleSubmit} disabled={isLoading}>
-        Fetch Data
-      </button>
     </form>
   );
 };
