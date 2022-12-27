@@ -20,10 +20,18 @@ const DateRangePicker = () => {
   const navigate = useNavigate();
 
   const handleStartDateChange = (event) => {
+    if (event.target.value > endDate) {
+      alert("Start date cannot be greater than end date");
+      return;
+    }
     dispatch(setStartDate(event.target.value));
   };
 
   const handleEndDateChange = (event) => {
+    if (event.target.value < startDate) {
+      alert("End date cannot be less than start date");
+      return;
+    }
     dispatch(setEndDate(event.target.value));
   };
 
@@ -37,9 +45,9 @@ const DateRangePicker = () => {
       });
   }, [dispatch]);
 
-
   useEffect(() => {
     console.log("useEffect");
+
     const pushToUrl = () => {
       const cols = visibleColumns
         .filter((column) => !column.isHidden)
@@ -48,14 +56,14 @@ const DateRangePicker = () => {
       searchParams.set("columns", JSON.stringify(cols));
       searchParams.set("start_date", startDate);
       searchParams.set("end_date", endDate);
-  
+
       const updatedLocation = {
         state: {
           ...location.state,
         },
         search: searchParams.toString(),
       };
-  //   navigate(`?${searchParams.toString()}`, { replace: true });
+      //   navigate(`?${searchParams.toString()}`, { replace: true });
       navigate(updatedLocation);
       console.log(location);
       console.log("updatedLocation", updatedLocation);
@@ -67,7 +75,7 @@ const DateRangePicker = () => {
         setIsLoading(false);
         console.log(error);
       });
-  }, [startDate, endDate, dispatch, visibleColumns, navigate ]);
+  }, [startDate, endDate, dispatch, visibleColumns, navigate]);
 
   return (
     <form className="date-picker-form-container">
