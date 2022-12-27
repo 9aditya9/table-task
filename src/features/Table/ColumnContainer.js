@@ -85,28 +85,6 @@ const ColumnContainer = ({ showColumn, setShowColumn }) => {
     dispatch(setVisibleColumns(selectedColumns));
   };
 
-  useEffect(() => {
-    console.log(visibleColumns);
-    const cols = selectedColumns
-      .filter((column) => !column.isHidden)
-      .map((column) => column.id);
-    const searchParams = new URLSearchParams();
-    searchParams.set("columns", JSON.stringify(cols));
-    searchParams.set("start_date", startDate);
-    searchParams.set("end_date", endDate);
-
-    const updatedLocation = {
-      state: {
-        ...location.state,
-        filters: visibleColumns,
-      },
-      search: searchParams.toString(),
-    };
-    navigate(updatedLocation);
-    console.log(location);
-    console.log("updatedLocation", updatedLocation);
-  }, [startDate, endDate, visibleColumns, navigate]);
-
   return (
     <div className="col-container">
       <div className="col-container-items">
