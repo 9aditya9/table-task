@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import TableContainer from "../features/Table/TableContainer";
+import TableContainer from "../features/Table/Container/TableContainer";
 import "./analytics.css";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { setVisibleColumns } from "../features/Table/tableSlice";
 const Analytics = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const cols  = useSelector((state) => state.tableData.columns);
+  const cols = useSelector((state) => state.tableData.columns);
   useEffect(() => {
     document.title = "Analytics";
     const searchParams = new URLSearchParams(location.search);
@@ -42,7 +42,7 @@ const Analytics = () => {
 
     // Set the visible columns based on the extracted columns data
     dispatch(setVisibleColumns(updatedColumns));
-  }, [dispatch] );
+  }, [dispatch]);
 
   // Extract the start and end dates from the search parameter
   return (

@@ -79,6 +79,7 @@ const DateRangePicker = () => {
 
   return (
     <form className="date-picker-form-container">
+      <div>
       <label htmlFor="start-date">Start Date:</label>
       <input
         type="date"
@@ -86,7 +87,8 @@ const DateRangePicker = () => {
         value={startDate}
         onChange={handleStartDateChange}
       />
-      <br />
+      </div>
+      <div>
       <label htmlFor="end-date">End Date:</label>
       <input
         type="date"
@@ -94,7 +96,7 @@ const DateRangePicker = () => {
         value={endDate}
         onChange={handleEndDateChange}
       />
-      <br />
+      </div>
     </form>
   );
 };

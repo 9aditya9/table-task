@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Table from "./table/Table";
-import ColumnContainer from "./ColumnContainer";
-import DateRangePicker from "../datepicker/DateRangePicker";
+import Table from "../table/Table";
+import ColumnContainer from "../Settings/ColumnContainer";
+import DateRangePicker from "../../datepicker/DateRangePicker";
 import "./TableContainer.css";
 
 const TableContainer = () => {
@@ -63,20 +63,29 @@ const TableContainer = () => {
           <DateRangePicker />
         </div>
         <div>
-          <button className="table-settings-btn" onClick={() => setShowColumn(!showColumn)}>
+          <button
+            className="table-settings-btn"
+            onClick={() => setShowColumn(!showColumn)}
+          >
             Settings
           </button>
         </div>
       </div>
-      <div className="columns">{showColumn ? <ColumnContainer showColumn={showColumn} setShowColumn={setShowColumn} /> : null}</div>
-      {filteredData.length === 0 ? (
-        <div className="no-data">No Data</div>
-      ) : (
-        <Table
-          visibleColumns={visibleColumns}
-          filteredData={filteredData}
-        />
-      )}
+      <div className="columns">
+        {showColumn ? (
+          <ColumnContainer
+            showColumn={showColumn}
+            setShowColumn={setShowColumn}
+          />
+        ) : null}
+      </div>
+      <div className="table">
+        {filteredData.length === 0 ? (
+          <div className="no-data">No Data</div>
+        ) : (
+          <Table visibleColumns={visibleColumns} filteredData={filteredData} />
+        )}
+      </div>
     </div>
   );
 };

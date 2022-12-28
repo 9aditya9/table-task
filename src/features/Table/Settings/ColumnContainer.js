@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setVisibleColumns } from "./tableSlice";
+import { setVisibleColumns } from "../tableSlice";
 import "./Column.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { setStartDate, setEndDate } from "../datepicker/dateRangeSlice";
+import { setStartDate, setEndDate } from "../../datepicker/dateRangeSlice";
 
 const initialState = {
   dragFrom: null,

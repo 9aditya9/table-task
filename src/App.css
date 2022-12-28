@@ -1,1 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+.app{
+    font-family: 'Lato', sans-serif;
+    display: flex;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 78px;
+    height: 100%;
+    background: #192F48 0% 0% no-repeat padding-box;
+}
+
+.main-content {
+    margin-left: 78px;
+    flex: 1;
+}
